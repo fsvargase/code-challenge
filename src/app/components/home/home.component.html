@@ -1,0 +1,83 @@
+<div class="container ">
+    <div class="row mt-5 d-flex justify-content-center">
+        <div class="col-10">
+            <form>
+                <div class="form-group">
+                  <label for="textLastName">Last Name</label>
+                  <input type="text" (keyup)="applyFilter($event)" class="form-control" id="textLastName"  placeholder="Type Last Name">
+                  <small id="lastNameHelp" class="form-text text-muted">Filtering By Last Name.</small>
+                </div>
+              </form>
+        </div>
+        <div class="col-2 pt-4">
+            <button class="btn btn-primary"  (click)="open(mymodal)">
+                <div><fa-icon [icon]="faAdd"></fa-icon></div>
+            </button>
+        </div>
+    </div>
+    <div class="row mt-2 d-flex justify-content-start">
+      <div class="col-8">
+        <select class="form-select"  [(ngModel)]="selectedSort" (ngModelChange)="onChange($event)">
+          <option value="1">Order by First name ASC</option>
+          <option value="2">Order by First name DESC</option>
+          <option value="3">Order by Last name ASC</option>
+          <option value="4">Order by Last name DESC</option>
+          <option value="5">Order by Status ASC</option>
+          <option value="6">Order by Status DESC</option>
+        </select>
+      </div>
+
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div  *ngFor="let costumer of costumersDataSource  | paginate: { itemsPerPage: 5, currentPage: p }" class="col">
+            <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">{{getFullName(costumer)}}</h5>
+                  <div class="card-text row">
+                    <div class="col">Phone</div>
+                    <div class="col"><p class="text-left">{{costumer.phone}}</p></div>
+                  </div>
+                  <div class="card-text row">
+                    <div class="col">Email</div>
+                    <div class="col"><p class="text-left">{{costumer.email}}</p></div>
+                  </div>
+                  <div class="card-text row">
+                    <div class="col">Status</div>
+                    <div class="col"><p class="text-left">{{costumer.status}}</p></div>
+                  </div>
+                </div>
+                <div class="card-footer  d-flex justify-content-around">
+                    <button class="btn btn-primary">
+                        <div><fa-icon [icon]="faEdit"></fa-icon></div>
+                    </button>
+                    <button class="btn btn-danger">
+                        <div><fa-icon [icon]="faTrash"></fa-icon></div>
+                    </button>
+                
+                </div>
+              </div>
+        </div>
+    </div>
+    
+</div>
+<div class="container d-flex justify-content-center mt-5" style="height: 50px;">
+    <pagination-controls  (pageChange)="p = $event"></pagination-controls>    
+</div>
+
+<ng-template #mymodal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Bootstrap Modal</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <div><fa-icon [icon]="faClose"></fa-icon></div>
+    </button>
+    </div>
+    <div class="modal-body">
+      <app-costumer></app-costumer>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    </div>
+  </ng-template>
