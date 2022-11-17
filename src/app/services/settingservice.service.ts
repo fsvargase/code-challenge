@@ -16,7 +16,7 @@ export class SettingServiceService {
     return this.http.get<Costumer[]>(this.url + 'init_data.json');
   }
 
-  public getCostumersFromLS(): Observable<any[]>{    
+  public getCostumersFromLS(): Observable<Costumer[]>{    
     let costumers = JSON.parse(localStorage.getItem("costumers")|| "[]");
 
     return of(costumers).pipe(

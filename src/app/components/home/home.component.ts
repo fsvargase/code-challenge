@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Costumer } from 'src/app/models/Costumer';
 import { SettingServiceService } from 'src/app/services/settingservice.service';
-import {  faTrash, faEdit, faAdd, faClose } from '@fortawesome/free-solid-svg-icons';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import {  faTrash, faEdit, faAdd } from '@fortawesome/free-solid-svg-icons';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -13,13 +13,13 @@ export class HomeComponent implements OnInit {
   public costumers: Costumer[]=[];
   public costumersDataSource: Costumer[]=[];
   public selectedSort:any="1";
+  public filterValue:string="";
   faTrash = faTrash;
   faEdit= faEdit;
   faAdd= faAdd;
-  faClose= faClose;
 
-  constructor(private settingService : SettingServiceService, private modalService: NgbModal) { }
-  p: number = 1;
+  constructor(private settingService : SettingServiceService, private router: Router) { }
+  page: number = 1;
   closeResult: string = '';
 
   ngOnInit(): void {
@@ -33,11 +33,7 @@ export class HomeComponent implements OnInit {
       .subscribe((response:Costumer[])=>{
         this.costumers = response;
         this.costumersDataSource = this.costumers;
-        this.costumersDataSource.sort((a, b) => {
-          if (a.first_name == b.first_name) { return 0;}
-          if (a.first_name < b.first_name) { return -1;}
-          return 1;
-        });
+        this.onChange("1");
         localStorage.setItem(key,JSON.stringify(response));  
       }) ;
       
@@ -46,45 +42,24 @@ export class HomeComponent implements OnInit {
           .subscribe((response:Costumer[])=>{
             this.costumers = response;
             this.costumersDataSource = this.costumers;
-            this.costumersDataSource.sort((a, b) => {
-              if (a.first_name == b.first_name) { return 0;}
-              if (a.first_name < b.first_name) {  return -1;}
-              return 1;
-            });
+            this.onChange("1");
           }) ;
     }    
   }
 
+  addCostumer(){
+    this.router.navigate(['/costumer',0]);
+  }
 
   getFullName(costumer:Costumer){
     return costumer.first_name+' '+costumer.last_name;
   }
 
-  open(content:any) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  } 
 
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
-    }
-  }
-
-  applyFilter(event: Event) { 
-    let filterParameter = (event.target as HTMLInputElement).value;
-    console.log(filterParameter);
+  applyFilter(event:any) { 
+    let filterParameter = event;
     filterParameter = filterParameter.trim(); 
     filterParameter = filterParameter.toLowerCase();
-    console.log(this.costumersDataSource.length);
     this.costumersDataSource = this.costumers.filter(cos => cos.last_name.toLowerCase().includes(filterParameter));    
   }
 
@@ -106,7 +81,7 @@ export class HomeComponent implements OnInit {
         break;
       case "3":
         this.costumersDataSource.sort((a, b) => {
-          if (a.last_name == b.status) { return 0;}
+          if (a.last_name == b.last_name) { return 0;}
           if (a.last_name < b.last_name) {  return -1;}
           return 1;
         });

@@ -22,7 +22,7 @@ import { CostumerComponent } from './components/costumer/costumer.component';
   imports: [
     BrowserModule, AppRoutingModule,HttpClientModule,FontAwesomeModule, NgxPaginationModule,NgbModule,FormsModule
   ],
-  providers: [],
+  providers: [ HttpClientModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

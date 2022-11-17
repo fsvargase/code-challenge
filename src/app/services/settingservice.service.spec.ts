@@ -12,6 +12,7 @@ describe('SettingserviceService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule], 
+      
     });
     service = TestBed.inject(SettingServiceService);
   });
@@ -22,6 +23,10 @@ describe('SettingserviceService', () => {
 
   it('#getInitialCostumers should return toBeDefined', () => {
     expect(service.getInitialCostumers()).toBeDefined();
+  });
+
+  it('#getCostumersFromLS should return toBeDefined', () => {
+    expect(service.getCostumersFromLS()).toBeDefined();
   });
 
 
