@@ -1,41 +1,25 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NgxPaginationModule } from 'ngx-pagination'; 
-import { SettingServiceService } from 'src/app/services/settingservice.service';
+import { StoreModule } from '@ngrx/store';
+
 
 import { HomeComponent } from './home.component';
 import { Costumer } from 'src/app/models/Costumer';
-import { Observable, of } from 'rxjs';
+import { ROOT_REDUCERS } from 'src/state/app.state';
 
-class SettingTestingServiceService {
-  public getInitialCostumers(): Observable<Costumer[]>{
-    return of([
-      {id:'1', first_name:"Felipe", last_name: 'Vargas', phone : '999999999',email : 'felipe.vargas@gmail.com', status : 'pending' },
-      {id:'2', first_name:"Antonio", last_name: 'Alvarez', phone : '999999999',email : 'felipe.vargas@gmail.com', status : 'active' }
-    ]);
-  }
-
-  public getCostumersFromLS(): Observable<Costumer[]>{    
-    return of([
-      {id:'1', first_name:"Felipe", last_name: 'Vargas', phone : '999999999',email : 'felipe.vargas@gmail.com', status : 'pending' },
-      {id:'2', first_name:"Antonio", last_name: 'Alvarez', phone : '999999999',email : 'felipe.vargas@gmail.com', status : 'active' }
-    ]);
-  }
-}
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
-  let settingService: SettingTestingServiceService;
 
 
   beforeEach( waitForAsync(() => {
       TestBed.configureTestingModule({
       declarations: [ HomeComponent ],
-      imports : [HttpClientTestingModule,NgxPaginationModule ],
-      providers : [
-        {provide:SettingServiceService, useClass:SettingTestingServiceService}  
-        ]    })
+      imports : [HttpClientTestingModule,NgxPaginationModule,  StoreModule.forRoot(ROOT_REDUCERS) ],
+      providers : [StoreModule]  
+      })
     .compileComponents();
   }));
 
@@ -76,7 +60,6 @@ describe('HomeComponent', () => {
         ];
 
         component.costumersDataSource = fakeCostumers;
-        // component.ringsInOrder set this too.
         component.onChange("3");
         expect(component.costumersDataSource).toEqual(costumerInOrder);
       })
@@ -227,10 +210,4 @@ describe('HomeComponent', () => {
         })
   );    
 
-  it('should set Initial Data id Not In LocalStorage', () => {
-    expect(component).toBeDefined();
-    expect(component).toBeInstanceOf(HomeComponent);
-    expect(component.costumers.length).toBe(2);
-  });
- 
 });

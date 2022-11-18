@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Costumer } from 'src/app/models/Costumer';
-import { SettingServiceService } from 'src/app/services/settingservice.service';
 import {  faTrash, faEdit, faAdd } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { AppState } from 'src/state/app.state';
+import { Store } from '@ngrx/store';
+import { selectListCostumers, selectLoadingCostumers } from 'src/state/costumer/costumer.selectors';
+import { loadCostumers } from 'src/state/costumer/costumer.actions';
 
 @Component({
   selector: 'app-home',
@@ -10,6 +14,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  public loading$ : Observable<string> = new Observable()
+  public costumers$ : Observable<any> = new Observable()
   public costumers: Costumer[]=[];
   public costumersDataSource: Costumer[]=[];
   public selectedSort:any="1";
@@ -18,34 +24,21 @@ export class HomeComponent implements OnInit {
   faEdit= faEdit;
   faAdd= faAdd;
 
-  constructor(private settingService : SettingServiceService, private router: Router) { }
-  page: number = 1;
-  closeResult: string = '';
+  constructor(private router: Router,
+              private store: Store<AppState>)
+              { }
+  public page: number = 1;
+  public closeResult: string = '';
 
-  ngOnInit(): void {
-    this.setInitialData("costumers");
+  ngOnInit(): void { 
+    
+    this.loading$ = this.store.select(selectLoadingCostumers);
+    this.costumers$ = this.store.select(selectListCostumers);
+   
+    this.store.dispatch(loadCostumers()); 
+    
   }
 
-  setInitialData(key:string){
-
-    if (localStorage.getItem(key) === null || localStorage.getItem(key) == '[]' ) {
-      this.settingService.getInitialCostumers()
-      .subscribe((response:Costumer[])=>{
-        this.costumers = response;
-        this.costumersDataSource = this.costumers;
-        this.onChange("1");
-        localStorage.setItem(key,JSON.stringify(response));  
-      }) ;
-      
-    }else{
-      this.settingService.getCostumersFromLS()
-          .subscribe((response:Costumer[])=>{
-            this.costumers = response;
-            this.costumersDataSource = this.costumers;
-            this.onChange("1");
-          }) ;
-    }    
-  }
 
   addCostumer(){
     this.router.navigate(['/costumer',0]);

@@ -12,6 +12,12 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { CostumerComponent } from './components/costumer/costumer.component';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'src/environments/environment';
+import { ROOT_REDUCERS } from 'src/state/app.state';
+import { EffectsModule } from '@ngrx/effects';
+import { CostumersEffects } from 'src/state/costumer/costumer.effects';
 
 @NgModule({
   declarations: [
@@ -20,7 +26,16 @@ import { CostumerComponent } from './components/costumer/costumer.component';
     CostumerComponent
   ],
   imports: [
-    BrowserModule, AppRoutingModule,HttpClientModule,FontAwesomeModule, NgxPaginationModule,NgbModule,FormsModule
+    BrowserModule, 
+    AppRoutingModule,
+    HttpClientModule,
+    StoreModule.forRoot(ROOT_REDUCERS),
+    StoreDevtoolsModule.instrument({maxAge:25,logOnly:environment.production}),
+    EffectsModule.forRoot([CostumersEffects]),
+    FontAwesomeModule, 
+    NgxPaginationModule,
+    NgbModule,
+    FormsModule
   ],
   providers: [ HttpClientModule],
   bootstrap: [AppComponent]

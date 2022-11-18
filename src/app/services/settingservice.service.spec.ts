@@ -22,11 +22,7 @@ describe('SettingserviceService', () => {
   });
 
   it('#getInitialCostumers should return toBeDefined', () => {
-    expect(service.getInitialCostumers()).toBeDefined();
-  });
-
-  it('#getCostumersFromLS should return toBeDefined', () => {
-    expect(service.getCostumersFromLS()).toBeDefined();
+    expect(service.getCostumers()).toBeDefined();
   });
 
 
