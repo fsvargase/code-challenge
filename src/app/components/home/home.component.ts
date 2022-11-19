@@ -62,7 +62,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  editCostumer(costumerId:number) {    
+  editCostumer(costumerId:string) {    
     this.router.navigate(['/costumer',costumerId]);
   }
 

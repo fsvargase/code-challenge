@@ -4,31 +4,48 @@
             <div class="card-body">
               <h5 class="card-title">{{title}}</h5>
               <div class="card-text row">
-                <div class="col-md-6 col-xs-12">
+                <div class="col-md-6 col-xs-12 form-group">
                     <label for="first_name" class="form-label">First Name</label>
-                    <input type="text" autocomplete="off" [(ngModel)]="costumer.first_name"   formControlName="first_name" placeholder="Type First Name" class="form-control" id="first_name" >  
-
+                    <input type="text" autocomplete="off" [(ngModel)]="costumer.first_name"  
+                    [ngClass]="{ 'is-invalid': isFormSubmitted && form.controls['first_name'].errors}"
+                    formControlName="first_name" placeholder="Type First Name" class="form-control" required >  
+                    <div *ngIf="isFormSubmitted && form.controls['first_name'].errors" class="invalid-feedback">
+                      <div *ngIf="form.controls['first_name'].errors">First Name is required</div>
+                    </div>
                 </div>
-                <div class="col-md-6 col-xs-12">
+                <div class="col-md-6 col-xs-12 form-group">
                     <label for="last_name" class="form-label">Last Name</label>
-                    <input type="text" autocomplete="off" [(ngModel)]="costumer.last_name"  formControlName="last_name" placeholder="Type Last Name" class="form-control" id="last_name" >  
+                    <input type="text" autocomplete="off" [(ngModel)]="costumer.last_name" 
+                    [ngClass]="{ 'is-invalid': isFormSubmitted && form.controls['last_name'].errors}"
+                    formControlName="last_name" placeholder="Type Last Name" class="form-control" required >  
+                    <div *ngIf="isFormSubmitted && form.controls['first_name'].errors" class="invalid-feedback">
+                      <div *ngIf="form.controls['first_name'].errors">Last Name is required</div>
+                    </div>
                 </div>
               </div>
               <div class="card-text row">
-                <div class="col-md-6 col-xs-12">
+                <div class="col-md-6 col-xs-12  form-group">
                     <label for="email"  class="form-label">Email</label>
-                    <input type="email"  autocomplete="off" [(ngModel)]="costumer.email" formControlName="email" placeholder="Type Email" class="form-control" id="email" required>  
-
+                    <input type="email"  autocomplete="off" [(ngModel)]="costumer.email" 
+                    [ngClass]="{ 'is-invalid': isFormSubmitted && form.controls['email'].errors}"
+                    formControlName="email" placeholder="Type Email" class="form-control"  required>  
+                    <div *ngIf="isFormSubmitted && form.controls['email'].errors" class="invalid-feedback">
+                      <div *ngIf="form.controls['email'].errors">Email is Required with valid format</div>
+                    </div>
                 </div>
                 <div class="col-md-6 col-xs-12">
                     <label for="phone" class="form-label">Phone</label>
-                    <input type="text" autocomplete="off" [(ngModel)]="costumer.phone"  formControlName="phone"  placeholder="Phone" class="form-control" id="phone" >  
-                
+                    <input type="text" autocomplete="off" [(ngModel)]="costumer.phone"  
+                    [ngClass]="{ 'is-invalid': isFormSubmitted && form.controls['phone'].errors}"
+                    formControlName="phone"  placeholder="Phone" class="form-control" id="phone" >  
+                    <div *ngIf="isFormSubmitted && form.controls['phone'].errors" class="invalid-feedback">
+                      <div *ngIf="form.controls['phone'].errors">Format Error (Only Numbers)</div>
+                    </div>
                 </div>
               </div>
               <div class="card-text row mt-3">
                 <div class="col-12">
-                    <select class="form-control"  [(ngModel)]="costumer.status" formControlName="status" >
+                    <select class="form-control"  [(ngModel)]="costumer.status" formControlName="status" required >
                            <option *ngFor="let st of status" [value]="st.name">
                              {{st.name}}
                            </option> 
