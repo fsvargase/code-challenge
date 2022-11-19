@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Costumer } from 'src/app/models/Costumer';
 import {  faTrash, faEdit, faAdd } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AppState } from 'src/state/app.state';
 import { Store } from '@ngrx/store';
 import { selectListCostumers, selectLoadingCostumers } from 'src/state/costumer/costumer.selectors';
-import { loadCostumers } from 'src/state/costumer/costumer.actions';
+import { loadCostumers, removeCostumer } from 'src/state/costumer/costumer.actions';
 
 @Component({
   selector: 'app-home',
@@ -33,12 +33,9 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void { 
     
     this.loading$ = this.store.select(selectLoadingCostumers);
-    this.costumers$ = this.store.select(selectListCostumers);
-   
-    this.store.dispatch(loadCostumers()); 
-    
+    this.costumers$ = this.store.select(selectListCostumers); 
+    this.store.dispatch(loadCostumers());     
   }
-
 
   addCostumer(){
     this.router.navigate(['/costumer',0]);
@@ -47,7 +44,6 @@ export class HomeComponent implements OnInit {
   getFullName(costumer:Costumer){
     return costumer.first_name+' '+costumer.last_name;
   }
-
 
   applyFilter(event:any) { 
     let filterParameter = event;
@@ -99,10 +95,20 @@ export class HomeComponent implements OnInit {
           if (a.status > b.status) {  return -1;}
           return 1;
         });
-        break;
-            
+        break;            
     }
   }
+
+  removeCostumer(costumerId:string) {
+    if(confirm("Press a button!")===true){
+      this.store.dispatch(removeCostumer({costumerId}));
+    }
+  //  this.costumers = this.costumers.filter(costumer=>costumer.id!=costumerId);
+   // this.localStorageService.saveData("costumers",JSON.stringify(this.costumers));
+    //this.dataSource.data = this.costumers;
+
+   // this.openSnackBar('Costumer Deleted','Delete');
+ }
 
 }
 

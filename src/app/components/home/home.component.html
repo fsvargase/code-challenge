@@ -36,10 +36,6 @@
 
 <div *ngIf="(loading$|async)!='loading'" class="container mt-5">
     <div class="row row-cols-1 row-cols-md-3 g-4">
-      {{(loading$|async)}}
-      <div *ngFor="let costumer of costumers ">
-        1
-      </div>
         <div  *ngFor="let costumer of (costumers$ | async)  | paginate: { itemsPerPage: 6, currentPage: page }" class="col">
             <div class="card">
                 <div class="card-body">
@@ -61,7 +57,7 @@
                     <button class="btn btn-primary">
                         <div><fa-icon [icon]="faEdit"></fa-icon></div>
                     </button>
-                    <button class="btn btn-danger">
+                    <button (click)="removeCostumer(costumer.id)" class="btn btn-danger">
                         <div><fa-icon [icon]="faTrash"></fa-icon></div>
                     </button>
                 

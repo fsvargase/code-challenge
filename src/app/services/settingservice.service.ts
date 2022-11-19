@@ -13,15 +13,15 @@ export class SettingServiceService {
   constructor(private http:HttpClient) { }
 
   public getCostumers(): Observable<Costumer[]>{
+    let costumers:Costumer[]=[];
     const serializedState = localStorage.getItem("costumers");
     if(serializedState===null || serializedState =='[]' ) {
-      let costumers:Costumer[] = this.getInitCostumers();
+      costumers = this.getInitCostumers();
       localStorage.setItem("costumers",JSON.stringify(costumers));  
-      return of(costumers).pipe( delay(500));
     }else{
-      let costumers = JSON.parse(localStorage.getItem("costumers")|| "[]");
-      return of(costumers).pipe( delay(500));
+      costumers = JSON.parse(localStorage.getItem("costumers")|| "[]");
     }
+    return of(costumers).pipe( delay(500));
   }
 
   public getInitCostumers():Costumer[]{
