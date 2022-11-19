@@ -9,7 +9,8 @@ export const removeCostumer = createAction('[Costumer Component] Remove Costumer
 
 export const loadCostumers = createAction( '[Costumer Component] Load Costumers');
 
-export const loadCostumersSuccess = createAction( 
-    '[Costumer Component] Load Costumers Success',
-    props<{costumers:Costumer[]}>()
- );
+export const loadCostumersSuccess = createAction('[Costumer Component] Load Costumers Success', props<{costumers:Costumer[]}>() );
+
+ export const filterByLastName = createAction('[Costumer Component] Load Filtered Costumers', props<{filter:string}>() );
+
+ export const orderCostumers = createAction('[Costumer Component] Order Costumers', props<{order:string}>() );

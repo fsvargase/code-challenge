@@ -1,7 +1,7 @@
 import { createReducer, on } from "@ngrx/store";
 import { Costumer } from "src/app/models/Costumer";
 import { CostumersState } from "src/app/models/costumer.state";
-import { addCostumer, loadCostumers, loadCostumersSuccess, removeCostumer, updateCostumer } from "./costumer.actions";
+import { addCostumer, filterByLastName, loadCostumers, loadCostumersSuccess, orderCostumers, removeCostumer, updateCostumer } from "./costumer.actions";
 
 
 
@@ -41,4 +41,65 @@ export const costumerReducer = createReducer(
                             
                             }),    
  
+    //Filter Costumers By LastName
+    on(filterByLastName, (state, {filter}) => {   
+        let costumersData : Costumer[] = JSON.parse(localStorage.getItem("costumers")|| "[]");  
+        let filteredCostumers = costumersData.filter(costumer=>costumer.last_name.toLowerCase().includes(filter));
+        return {...state, costumers:filteredCostumers};
+      
+      }),     
+      
+    //Order Customers BY First Name, Last Name And Status
+    on(orderCostumers, (state, {order}) => {   
+        let costumersData : Costumer[]=[];
+        for (let index = 0; index < state.costumers.length; index++) {
+            costumersData.push(state.costumers[index]) ;            
+        }
+        switch (order) {
+            case "1": // ASC FirstName           
+                costumersData= costumersData.sort((a, b) => {
+                                                if (a.first_name == b.first_name) { return 0;}
+                                                if (a.first_name < b.first_name) {  return -1;}
+                                                return 1;
+                                            });
+                break;
+            case "2": // DESC FirstName           
+                costumersData= costumersData.sort((a, b) => {
+                                                if (a.first_name == b.first_name) { return 0;}
+                                                if (a.first_name > b.first_name) {  return -1;}
+                                                return 1;
+                                            });            
+                break;
+            case "3":  // ASC LastName   
+                costumersData= costumersData.sort((a, b) => {
+                                                    if (a.last_name == b.last_name) { return 0;}
+                                                    if (a.last_name < b.last_name) {  return -1;}
+                                                    return 1;
+                                                });
+                break;
+            case "4":  // DESC LastName   
+                costumersData= costumersData.sort((a, b) => {
+                                                if (a.last_name == b.last_name) { return 0;}
+                                                if (a.last_name > b.last_name) {  return -1;}
+                                                return 1;
+                                            });
+                break;
+            case "5":  // ASC status
+                costumersData= costumersData.sort((a, b) => {
+                                                if (a.status == b.status) { return 0;}
+                                                if (a.status < b.status) {  return -1;}
+                                                return 1;
+                                            });
+                break;
+            case "6":  // DESC status
+                costumersData= costumersData.sort((a, b) => {
+                                                    if (a.status == b.status) { return 0;}
+                                                    if (a.status > b.status) {  return -1;}
+                                                    return 1;
+                                                });
+                break;
+        }
+        return {...state, costumers:costumersData};
+        
+        }),     
 );
