@@ -20,7 +20,6 @@ export class CostumersEffects {
         exhaustMap(() =>
           this.settingService.getCostumers().pipe(
             map((response:Costumer[]) => {
-              console.log(response);
               return  loadCostumersSuccess({ costumers: response });
             })
           )
