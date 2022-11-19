@@ -103,12 +103,11 @@ export class HomeComponent implements OnInit {
     if(confirm("Press a button!")===true){
       this.store.dispatch(removeCostumer({costumerId}));
     }
-  //  this.costumers = this.costumers.filter(costumer=>costumer.id!=costumerId);
-   // this.localStorageService.saveData("costumers",JSON.stringify(this.costumers));
-    //this.dataSource.data = this.costumers;
+  }
 
-   // this.openSnackBar('Costumer Deleted','Delete');
- }
+  editCostumer(costumerId:number) {    
+    this.router.navigate(['/costumer',costumerId]);
+  }
 
 }
 

@@ -27,9 +27,9 @@ export class SettingServiceService {
   public getInitCostumers():Costumer[]{
     let costumers:Costumer[]=
       [
-        {"id":"RaQ5V","first_name":"LEONOR","last_name":"MILLAN","phone":"776713982","status":"active" ,"email":"mariajosefa_73@earthling.net"},       
+        {"id":"RaQ5V","first_name":"LEONOR","last_name":"MILLAN","phone":"776713982","status":"pending" ,"email":"mariajosefa_73@earthling.net"},       
         {"id":"kda9U","first_name":"IGOR","last_name":"LEAL","phone":"659276322","status":"active", "email":"celia_01@email.com"},
-        {"id":"4zyhk","first_name":"HELENA","last_name":"ROYO","phone":"607002584","status":"active", "email":"candido_78@hotmail.co.uk"},
+        {"id":"4zyhk","first_name":"HELENA","last_name":"ROYO","phone":"607002584","status":"inactive", "email":"candido_78@hotmail.co.uk"},
         {"id":"4dRWc","first_name":"ASIER","last_name":"ZAPATA","phone":"788614594","status":"active", "email":"sheila_21@unforgettable.com"},
         {"id":"RG89l","first_name":"MODESTO","last_name":"OJEDA","phone":"681602551","status":"active", "email":"agustin_57@lycos.es"},
         {"id":"yQFyK","first_name":"RAQUEL","last_name":"TIRADO","phone":"690850583","status":"active", "email":"anamaria_65@gmail.com"},

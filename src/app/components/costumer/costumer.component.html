@@ -1,20 +1,50 @@
-<div class="container">
-    <form>
-        <div class="row">
-            <div class="col-6">
-                <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">Email address</label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                  <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+<div class="container mt-5">
+    <form [formGroup]="form">
+        <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{title}}</h5>
+              <div class="card-text row">
+                <div class="col-md-6 col-xs-12">
+                    <label for="first_name" class="form-label">First Name</label>
+                    <input type="text" autocomplete="off" [(ngModel)]="costumer.first_name"   formControlName="first_name" placeholder="Type First Name" class="form-control" id="first_name" >  
+
                 </div>
-            </div>
-            <div class="col-6">
-                <div class="mb-3">
-                  <label for="exampleInputPassword1" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="exampleInputPassword1">
+                <div class="col-md-6 col-xs-12">
+                    <label for="last_name" class="form-label">Last Name</label>
+                    <input type="text" autocomplete="off" [(ngModel)]="costumer.last_name"  formControlName="last_name" placeholder="Type Last Name" class="form-control" id="last_name" >  
                 </div>
+              </div>
+              <div class="card-text row">
+                <div class="col-md-6 col-xs-12">
+                    <label for="email"  class="form-label">Email</label>
+                    <input type="email"  autocomplete="off" [(ngModel)]="costumer.email" formControlName="email" placeholder="Type Email" class="form-control" id="email" required>  
+
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <label for="phone" class="form-label">Phone</label>
+                    <input type="text" autocomplete="off" [(ngModel)]="costumer.phone"  formControlName="phone"  placeholder="Phone" class="form-control" id="phone" >  
+                
+                </div>
+              </div>
+              <div class="card-text row mt-3">
+                <div class="col-12">
+                    <select class="form-control"  [(ngModel)]="costumer.status" formControlName="status" >
+                           <option *ngFor="let st of status" [value]="st.name">
+                             {{st.name}}
+                           </option> 
+                     </select>
+                </div>
+              </div>
             </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="card-footer  d-flex justify-content-around">
+                <button  placement="top" ngbTooltip="Save Costumer" (click)="save()" class="btn btn-primary">
+                    <div><fa-icon [icon]="faSave"></fa-icon></div>
+                </button>
+                <button class="btn btn-danger"  placement="top" ngbTooltip="Back To Home" (click)="goToList()">
+                    <div><fa-icon [icon]="faHome"></fa-icon></div>
+                </button>   
+            
+            </div>
+          </div>
     </form>
 </div>
